@@ -1,0 +1,11 @@
+{
+  "targets": {
+    "urisiento-app": {
+      "hosting": {
+        "app": [
+          "urisiento-app"
+        ]
+      }
+    }
+  }
+}
