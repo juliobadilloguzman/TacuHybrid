@@ -1,0 +1,42 @@
+.container {
+    height: 100%;
+    display: flex;
+    background: url('/assets/img/backgrounds/login.jpg');
+    background-size: cover;
+    .logo {
+        width: 80%;
+        display: block;
+        margin: auto;
+    }
+    .container-signup-form {
+        height: 80%;
+        align-self: center;
+        overflow-x: scroll !important;
+        overflow-y: scroll !important;
+        form {
+            border-radius: 5px;
+            background: #fff;
+            height: inherit;
+            overflow: scroll;
+            overflow-x: scroll !important;
+            overflow-y: scroll !important;
+            .welcome-container {
+                text-align: center;
+                .welcome-text {
+                    font-weight: 700;
+                    margin: 0;
+                }
+                .subtitle-text {
+                    font-size: 15px;
+                    margin: 0;
+                }
+            }
+            .forgot-password-text {
+                font-size: 13px;
+            }
+            .no-account-text {
+                font-size: 15px;
+            }
+        }
+    }
+}

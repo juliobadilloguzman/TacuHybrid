@@ -1,9 +1,126 @@
-<ion-header>
-  <ion-toolbar>
-    <ion-title>signup</ion-title>
-  </ion-toolbar>
-</ion-header>
-
 <ion-content>
+
+    <div class="container ion-padding">
+        <div class="container-signup-form">
+            <img class="logo mb-1" src="/assets/img/logos/logowhite.png" alt="">
+            <form class="ion-padding" [formGroup]="signUpForm">
+                <div class="welcome-container">
+                    <h3 class="welcome-text">Registro</h3>
+                    <h4 class="subtitle-text text-gray">Crea una cuenta para unirte al concurso</h4>
+                </div>
+                <ion-item class="mt-1" color="secondary">
+                    <ion-label position="stacked">Nombre</ion-label>
+                    <ion-input formControlName="nombre" placeholder="Introduce tu nombre" type="text"></ion-input>
+                </ion-item>
+                <!-- Errors -->
+                <div *ngIf="showErrors(nombre)">
+                    <ion-text color="danger" class="ion-text-center" *ngIf="nombre.errors.required">
+                        <p>El campo es requerido</p>
+                    </ion-text>
+                    <ion-text color="danger" class="ion-text-center" *ngIf="nombre.errors.pattern">
+                        <p>Formato inválido</p>
+                    </ion-text>
+                    <ion-text color="danger" class="ion-text-center" *ngIf="nombre.errors.minlength">
+                        <p>Se requiere un mínimo de {{nombre.errors.minlength.requiredLength}} caractéres</p>
+                    </ion-text>
+                </div>
+                <ion-item class="mt-1" color="secondary">
+                    <ion-label position="stacked">Apellidos</ion-label>
+                    <ion-input formControlName="apellidos" placeholder="Introduce tus apellidos" type="text"></ion-input>
+                </ion-item>
+                <!-- Errors -->
+                <div *ngIf="showErrors(apellidos)">
+                    <ion-text color="danger" class="ion-text-center" *ngIf="apellidos.errors.required">
+                        <p>El campo es requerido</p>
+                    </ion-text>
+                    <ion-text color="danger" class="ion-text-center" *ngIf="apellidos.errors.pattern">
+                        <p>Formato inválido</p>
+                    </ion-text>
+                    <ion-text color="danger" class="ion-text-center" *ngIf="apellidos.errors.minlength">
+                        <p>Se requiere un mínimo de {{nombre.errors.minlength.requiredLength}} caractéres</p>
+                    </ion-text>
+                </div>
+                <ion-item class="mt-1" color="secondary">
+                    <ion-label>Sexo</ion-label>
+                    <ion-select formControlName="sexo">
+                        <ion-select-option value="Masculino">Masculino</ion-select-option>
+                        <ion-select-option value="Femenino">Femenino</ion-select-option>
+                        <ion-select-option value="Otro">Otro</ion-select-option>
+                    </ion-select>
+                </ion-item>
+                <!-- Errors -->
+                <div *ngIf="showErrors(sexo)">
+                    <ion-text color="danger" class="ion-text-center" *ngIf="sexo.errors.required">
+                        <p>El campo es requerido</p>
+                    </ion-text>
+                </div>
+                <ion-item class="mt-1" color="secondary">
+                    <ion-label position="stacked">Correo</ion-label>
+                    <ion-input formControlName="correo" placeholder="Introduce tu correo" type="email"></ion-input>
+                </ion-item>
+                <!-- Errors -->
+                <div *ngIf="showErrors(correo)">
+                    <ion-text color="danger" class="ion-text-center" *ngIf="correo.errors.required">
+                        <p>El campo es requerido</p>
+                    </ion-text>
+                    <ion-text color="danger" class="ion-text-center" *ngIf="correo.errors.nonUniqueEmail">
+                        <p>El correo ya esta en uso</p>
+                    </ion-text>
+                    <ion-text color="danger" class="ion-text-center" *ngIf="correo.errors.noConnection">
+                        <p>Verifique su conexión de internet</p>
+                    </ion-text>
+                    <ion-text color="danger" class="ion-text-center" *ngIf="correo.errors.email">
+                        <p>Formato de correo inválido</p>
+                    </ion-text>
+                </div>
+                <ion-item class="mt-1" color="secondary">
+                    <ion-label position="stacked">Contraseña</ion-label>
+                    <ion-input formControlName="contra" placeholder="Introduce tu contraseña" type="password"></ion-input>
+                </ion-item>
+                <!-- Errors -->
+                <div *ngIf="showErrors(contra)">
+                    <ion-text color="danger" class="ion-text-center" *ngIf="contra.errors.required">
+                        <p>El campo es requerido</p>
+                    </ion-text>
+                    <ion-text color="danger" class="ion-text-center" *ngIf="contra.errors.minlength">
+                        <p>Se requiere un mínimo de {{nombre.errors.minlength.requiredLength}} caractéres</p>
+                    </ion-text>
+                </div>
+                <ion-item class="mt-1" color="secondary">
+                    <ion-label>Fecha de Nacimiento</ion-label>
+                    <ion-datetime formControlName="nacimiento"></ion-datetime>
+                </ion-item>
+                <!-- Errors -->
+                <div *ngIf="showErrors(nacimiento)">
+                    <ion-text color="danger" class="ion-text-center" *ngIf="nacimiento.errors.required">
+                        <p>El campo es requerido</p>
+                    </ion-text>
+                </div>
+                <ion-item class="mt-1" color="secondary">
+                    <ion-label position="stacked">Teléfono</ion-label>
+                    <ion-input formControlName="telefono" placeholder="Introduce tu teléfono (10 dígitos)" type="text"></ion-input>
+                </ion-item>
+                <!-- Errors -->
+                <div *ngIf="showErrors(telefono)">
+                    <ion-text color="danger" class="ion-text-center" *ngIf="telefono.errors.required">
+                        <p>El campo es requerido</p>
+                    </ion-text>
+                    <ion-text color="danger" class="ion-text-center" *ngIf="telefono.errors.minlength || telefono.errores.maxlength">
+                        <p>Se requiere un teléfono de 10 dígitos</p>
+                    </ion-text>
+                </div>
+                <ion-button class="mt-1" expand="block" shape="round" (click)="onSignUp()">REGISTRARME</ion-button>
+                <ion-grid>
+                    <ion-row>
+                        <ion-col size="12" class="ion-text-center">
+                            <ion-text class="no-account-text" color="tertiary">Ya tienes una cuenta?
+                                <ion-text class="cursor-pointer" color="primary" routerLink="/auth/login">Inica sesión</ion-text>
+                            </ion-text>
+                        </ion-col>
+                    </ion-row>
+                </ion-grid>
+            </form>
+        </div>
+    </div>
 
 </ion-content>
