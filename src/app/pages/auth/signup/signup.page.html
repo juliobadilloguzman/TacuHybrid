@@ -37,7 +37,7 @@
                         <p>Formato inválido</p>
                     </ion-text>
                     <ion-text color="danger" class="ion-text-center" *ngIf="apellidos.errors.minlength">
-                        <p>Se requiere un mínimo de {{nombre.errors.minlength.requiredLength}} caractéres</p>
+                        <p>Se requiere un mínimo de {{apellidos.errors.minlength.requiredLength}} caractéres</p>
                     </ion-text>
                 </div>
                 <ion-item class="mt-1" color="secondary">
@@ -83,7 +83,7 @@
                         <p>El campo es requerido</p>
                     </ion-text>
                     <ion-text color="danger" class="ion-text-center" *ngIf="contra.errors.minlength">
-                        <p>Se requiere un mínimo de {{nombre.errors.minlength.requiredLength}} caractéres</p>
+                        <p>Se requiere un mínimo de {{contra.errors.minlength.requiredLength}} caractéres</p>
                     </ion-text>
                 </div>
                 <ion-item class="mt-1" color="secondary">
@@ -105,11 +105,11 @@
                     <ion-text color="danger" class="ion-text-center" *ngIf="telefono.errors.required">
                         <p>El campo es requerido</p>
                     </ion-text>
-                    <ion-text color="danger" class="ion-text-center" *ngIf="telefono.errors.minlength || telefono.errores.maxlength">
+                    <ion-text color="danger" class="ion-text-center" *ngIf="telefono.errors.minlength || telefono.errors.maxlength">
                         <p>Se requiere un teléfono de 10 dígitos</p>
                     </ion-text>
                 </div>
-                <ion-button class="mt-1" expand="block" shape="round" (click)="onSignUp()">REGISTRARME</ion-button>
+                <ion-button class="mt-1" expand="block" shape="round" (click)="onSignUp()" [disabled]="!signUpForm.valid">REGISTRARME</ion-button>
                 <ion-grid>
                     <ion-row>
                         <ion-col size="12" class="ion-text-center">

@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators, Form, FormControl } from '@angular/forms';
 import { AngularFireAuth } from '@angular/fire/auth';
 import { UniqueEmail } from '../../../validators/unique-email';
-import {formatDate} from '@angular/common';
+import * as moment from 'moment';
 
 @Component({
   selector: 'app-signup',
@@ -60,7 +60,7 @@ export class SignupPage implements OnInit {
         Validators.maxLength(10)
       ]
     ],
-      creacion: ['', [
+      creacion: [moment().format("YYYY Do MMM"), [
         Validators.required
       ]
     ]

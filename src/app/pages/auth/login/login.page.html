@@ -12,14 +12,31 @@
                     <ion-label position="stacked">Correo</ion-label>
                     <ion-input formControlName="email" placeholder="Introduce tu correo" type="text"></ion-input>
                 </ion-item>
+                <!-- Errors -->
+                <div *ngIf="showErrors(email)">
+                    <ion-text color="danger" class="ion-text-center" *ngIf="email.errors.required">
+                        <p>El campo es requerido</p>
+                    </ion-text>
+                    <ion-text color="danger" class="ion-text-center" *ngIf="email.errors.email">
+                        <p>Formato de correo inválido</p>
+                    </ion-text>
+                </div>
                 <ion-item class="mt-1" color="secondary">
                     <ion-label position="stacked">Contraseña</ion-label>
                     <ion-input formControlName="password" placeholder="Introduce tu contraseña" type="password"></ion-input>
                 </ion-item>
+                <div *ngIf="showErrors(password)">
+                    <ion-text color="danger" class="ion-text-center" *ngIf="password.errors.required">
+                        <p>El campo es requerido</p>
+                    </ion-text>
+                    <ion-text color="danger" class="ion-text-center" *ngIf="password.errors.minlength">
+                        <p>Se requiere un mínimo de {{password.errors.minlength.requiredLength}} caractéres</p>
+                    </ion-text>
+                </div>
                 <ion-grid>
                     <ion-row>
                         <ion-col size="12" class="ion-text-end">
-                            <ion-text class="forgot-password-text cursor-pointer" color="primary">Olvidaste tu contraseña?</ion-text>
+                            <ion-text class="forgot-password-text cursor-pointer" color="primary" routerLink="/auth/forgot-password">Olvidaste tu contraseña?</ion-text>
                         </ion-col>
                     </ion-row>
                 </ion-grid>
