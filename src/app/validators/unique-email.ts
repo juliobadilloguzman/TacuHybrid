@@ -1,6 +1,5 @@
 import { Injectable } from "@angular/core";
 import { AsyncValidator, FormControl } from "@angular/forms";
-import { of } from 'rxjs';
 import { AuthService } from '../services/auth.service';
 
 @Injectable({
@@ -14,7 +13,7 @@ export class UniqueEmail implements AsyncValidator {
 
     const { value } = control;
  
-    return this._authService.emailAvailable(value).then(function (signInMethods) {
+    return this._authService.emailAvailable(value).then(signInMethods => {
 
         if (signInMethods.length > 0) {
           return {nonUniqueEmail: true};

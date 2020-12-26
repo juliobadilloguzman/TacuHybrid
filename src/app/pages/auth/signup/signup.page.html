@@ -8,6 +8,8 @@
                     <h3 class="welcome-text">Registro</h3>
                     <h4 class="subtitle-text text-gray">Crea una cuenta para unirte al concurso</h4>
                 </div>
+
+                <!-- ***** NOMBRE ***** -->
                 <ion-item class="mt-1" color="secondary">
                     <ion-label position="stacked">Nombre</ion-label>
                     <ion-input formControlName="nombre" placeholder="Introduce tu nombre" type="text"></ion-input>
@@ -24,6 +26,8 @@
                         <p>Se requiere un mínimo de {{nombre.errors.minlength.requiredLength}} caractéres</p>
                     </ion-text>
                 </div>
+
+                <!-- ***** APELLIDOS ***** -->
                 <ion-item class="mt-1" color="secondary">
                     <ion-label position="stacked">Apellidos</ion-label>
                     <ion-input formControlName="apellidos" placeholder="Introduce tus apellidos" type="text"></ion-input>
@@ -40,6 +44,8 @@
                         <p>Se requiere un mínimo de {{apellidos.errors.minlength.requiredLength}} caractéres</p>
                     </ion-text>
                 </div>
+
+                <!-- ***** SEXO ***** -->
                 <ion-item class="mt-1" color="secondary">
                     <ion-label>Sexo</ion-label>
                     <ion-select formControlName="sexo">
@@ -54,6 +60,8 @@
                         <p>El campo es requerido</p>
                     </ion-text>
                 </div>
+
+                <!-- ***** CORREO ***** -->
                 <ion-item class="mt-1" color="secondary">
                     <ion-label position="stacked">Correo</ion-label>
                     <ion-input formControlName="correo" placeholder="Introduce tu correo" type="email"></ion-input>
@@ -73,6 +81,8 @@
                         <p>Formato de correo inválido</p>
                     </ion-text>
                 </div>
+
+                <!-- ***** CONTRASEÑA ***** -->
                 <ion-item class="mt-1" color="secondary">
                     <ion-label position="stacked">Contraseña</ion-label>
                     <ion-input formControlName="contra" placeholder="Introduce tu contraseña" type="password"></ion-input>
@@ -86,6 +96,28 @@
                         <p>Se requiere un mínimo de {{contra.errors.minlength.requiredLength}} caractéres</p>
                     </ion-text>
                 </div>
+
+                <!-- ***** CONFIRMAR CONTRASEÑA ***** -->
+                <ion-item class="mt-1" color="secondary">
+                    <ion-label position="stacked">Confirmar Contraseña</ion-label>
+                    <ion-input formControlName="contraConfirmation" placeholder="Confirma tu contraseña" type="password"></ion-input>
+                </ion-item>
+                <!-- Errors -->
+                <div *ngIf="showErrors(contraConfirmation)">
+                    <ion-text color="danger" class="ion-text-center" *ngIf="contraConfirmation.errors.required">
+                        <p>El campo es requerido</p>
+                    </ion-text>
+                    <ion-text color="danger" class="ion-text-center" *ngIf="contraConfirmation.errors.minlength">
+                        <p>Se requiere un mínimo de {{contraConfirmation.errors.minlength.requiredLength}} caractéres</p>
+                    </ion-text>
+                </div>
+                <div *ngIf="contra.touched && contraConfirmation.touched && signUpForm.errors">
+                    <ion-text color="danger" class="ion-text-center" *ngIf="signUpForm.errors.passwordsDontMatch">
+                        <p>Las contraseñas no coinciden</p>
+                    </ion-text>
+                </div>
+
+                <!-- ***** FECHA DE NACIMIENTO ***** -->
                 <ion-item class="mt-1" color="secondary">
                     <ion-label>Fecha de Nacimiento</ion-label>
                     <ion-datetime formControlName="nacimiento"></ion-datetime>
@@ -96,6 +128,8 @@
                         <p>El campo es requerido</p>
                     </ion-text>
                 </div>
+
+                <!-- ***** TELEFONO ***** -->
                 <ion-item class="mt-1" color="secondary">
                     <ion-label position="stacked">Teléfono</ion-label>
                     <ion-input formControlName="telefono" placeholder="Introduce tu teléfono (10 dígitos)" type="text"></ion-input>
@@ -109,7 +143,15 @@
                         <p>Se requiere un teléfono de 10 dígitos</p>
                     </ion-text>
                 </div>
+
+                <!-- ***** TERMINOS Y CONDICIONES ***** -->
+                <ion-item class="mt-1" color="secondary">
+                    <ion-label class="text-gray">Terminos y condiciónes</ion-label>
+                    <ion-checkbox color="success" slot="end" (ionChange)="onSetTerminos($event.target.checked)"></ion-checkbox>
+                </ion-item>
+
                 <ion-button class="mt-1" expand="block" shape="round" (click)="onSignUp()" [disabled]="!signUpForm.valid">REGISTRARME</ion-button>
+
                 <ion-grid>
                     <ion-row>
                         <ion-col size="12" class="ion-text-center">
