@@ -142,14 +142,20 @@
                     <ion-text color="danger" class="ion-text-center" *ngIf="telefono.errors.minlength || telefono.errors.maxlength">
                         <p>Se requiere un teléfono de 10 dígitos</p>
                     </ion-text>
+                    <ion-text color="danger" class="ion-text-center" *ngIf="telefono.errors.pattern">
+                        <p>Solo se permiten números</p>
+                    </ion-text>
                 </div>
 
                 <!-- ***** TERMINOS Y CONDICIONES ***** -->
                 <ion-item class="mt-1" color="secondary">
-                    <ion-label class="text-gray">Terminos y condiciónes</ion-label>
-                    <ion-checkbox color="success" slot="end" (ionChange)="onSetTerminos($event.target.checked)"></ion-checkbox>
+                    <ion-label class="text-gray">Acepto los
+                        <ion-text class="text-blue" (click)="openTermsAndConditions()">Terminos y condiciónes</ion-text>
+                    </ion-label>
+                    <ion-toggle color="success" [checked]="termsAccepted" (ionChange)="onSetTerminos($event.target.checked)"></ion-toggle>
                 </ion-item>
 
+                <!-- <ion-button class="mt-1" expand="block" shape="round" (click)="onSignUp()" [disabled]="!signUpForm.valid">REGISTRARME</ion-button> -->
                 <ion-button class="mt-1" expand="block" shape="round" (click)="onSignUp()" [disabled]="!signUpForm.valid">REGISTRARME</ion-button>
 
                 <ion-grid>

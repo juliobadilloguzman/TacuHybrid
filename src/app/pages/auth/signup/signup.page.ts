@@ -4,7 +4,13 @@ import { AngularFireAuth } from '@angular/fire/auth';
 import { UniqueEmail } from '../../../validators/unique-email';
 import * as moment from 'moment';
 import { MatchPassword } from 'src/app/validators/match-password';
-import { AlertController } from '@ionic/angular';
+import { ModalController } from '@ionic/angular';
+import { AuthService } from 'src/app/services/auth.service';
+import { UiActionsService } from 'src/app/services/ui-actions.service';
+import { Persona } from 'src/app/models/persona';
+import { PersonaService } from 'src/app/services/persona.service';
+import { Router } from '@angular/router';
+import { TermsConditionsComponent } from './terms-conditions/terms-conditions.component';
 
 @Component({
   selector: 'app-signup',
@@ -20,10 +26,14 @@ export class SignupPage implements OnInit {
     private fb: FormBuilder,
     private matchPasswordValidator: MatchPassword,
     private uniqueEmailValidator: UniqueEmail,
-    private alertController: AlertController
+    private modalController: ModalController,
+    private _authService: AuthService,
+    private _uiActionsService: UiActionsService,
+    private _personaService: PersonaService,
+    private router: Router
   ) { }
 
-  ngOnInit() {
+  ngOnInit(): void {
 
     this.signUpForm = this.fb.group({
 
@@ -32,112 +42,164 @@ export class SignupPage implements OnInit {
         Validators.pattern(/^[a-zA-Z]+$/),
         Validators.minLength(2),
       ]
-    ],
+      ],
       apellidos: ['', [
         Validators.required,
         Validators.pattern(/^[a-zA-Z]+$/),
         Validators.minLength(4)
       ]
-    ],
+      ],
       sexo: ['', [
         Validators.required
       ]
-    ],
+      ],
       correo: ['', [
         Validators.required,
         Validators.email
       ],
-      [this.uniqueEmailValidator.validate]
-    ],
+        [this.uniqueEmailValidator.validate]
+      ],
       contra: ['', [
         Validators.required,
-        Validators.minLength(4)
+        Validators.minLength(6)
       ]
-    ],
+      ],
       contraConfirmation: ['', [
         Validators.required,
-        Validators.minLength(4)
+        Validators.minLength(6)
       ]
-    ],
+      ],
       nacimiento: ['', [
         Validators.required
       ]
-    ],
+      ],
       telefono: ['', [
         Validators.required,
         Validators.minLength(10),
-        Validators.maxLength(10)
+        Validators.maxLength(10),
+        Validators.pattern(/^\d+$/)
       ]
-    ],
-      creacion: [moment().format(), [
+      ],
+      creacion: [moment(new Date()).locale('es').format('LLLL'), [
         Validators.required
-      ]
-    ]
-  
-    }, {validators: [this.matchPasswordValidator.validate]});
+      ],
+      ],
+    }, { validators: [this.matchPasswordValidator.validate] });
 
   }
 
-  get nombre(){
+  get nombre() {
     return this.signUpForm.get('nombre');
   }
 
-  get apellidos(){
+  get apellidos() {
     return this.signUpForm.get('apellidos');
   }
 
-  get sexo(){
+  get sexo() {
     return this.signUpForm.get('sexo');
   }
 
-  get correo(){
+  get correo() {
     return this.signUpForm.get('correo');
   }
 
-  get contra(){
+  get contra() {
     return this.signUpForm.get('contra');
   }
 
-  get contraConfirmation(){
+  get contraConfirmation() {
     return this.signUpForm.get('contraConfirmation');
   }
 
-  get nacimiento(){
+  get nacimiento() {
     return this.signUpForm.get('nacimiento');
   }
 
-  get telefono(){
+  get telefono() {
     return this.signUpForm.get('telefono');
   }
 
-  onSetTerminos(event:boolean){
+  get creacion() {
+    return this.signUpForm.get('creacion');
+  }
+
+  onSetTerminos(event: boolean): void {
     this.termsAccepted = event;
   }
 
-  showErrors(control: FormControl): boolean{
-    const { dirty, touched, errors } =  control;
+  async openTermsAndConditions(){
+    const modal = await this.modalController.create({
+      component: TermsConditionsComponent,
+      id: 'terms-conditions'
+    });
+    await modal.present();
+  }
+
+  showErrors(control: FormControl): boolean {
+    const { dirty, touched, errors } = control;
     return dirty && touched && !!errors;
   }
 
-  async showAlertTerms() {
-    const alert = await this.alertController.create({
-      header: 'Acepta los términos y condiciones',
-      message: 'Para continuar, debe de aceptar los términos y condiciones.',
-      buttons: ['Entendido']
-    });
-
-    await alert.present();
+  resetForm(){
+    this.signUpForm.reset();
+    this.termsAccepted = false;
   }
 
-  onSignUp(): void{
-    
-    //if(!this.signUpForm.valid) return;
+  onSignUp(): void {
 
-    if(!this.termsAccepted)
-      this.showAlertTerms();
+    if (!this.signUpForm.valid) return;
 
+    if (!this.termsAccepted)
+      this._uiActionsService.presentAlert('Para continuar, debes de aceptar los terminos y condiciones.', ['Entendido'], 'Terminos y Condiciones');
+    else {
 
-    console.warn(this.signUpForm.value);
+      this._uiActionsService.presentLoading('Registrando usuario...').then(loading => {
+
+        loading.present();
+
+        //Agrega el usuario a la Authentication de Firebase
+        this._authService.signUp(this.correo.value, this.contra.value).then((response) => {
+
+          //Si lo agregó correcamente, lo agrega a la base de datos
+          if (response.user) {
+
+            const persona: Persona = {
+              id: response.user.uid,
+              nombre: this.nombre.value,
+              apellidos: this.apellidos.value,
+              sexo: this.sexo.value,
+              correo: this.correo.value,
+              nacimiento: moment(this.nacimiento.value).locale('es').format('L'),
+              telefono: this.telefono.value,
+              creacion: this.creacion.value,
+              taqueriasVisitadas: 0,
+              primeraVezLoggeado: true
+            };
+
+            this._personaService.createPersona(persona).then((response) => {
+              if (response) {
+                loading.dismiss();
+                this._uiActionsService.presentToast('Usuario registrado satisfactoriamente', true, 2000, null, 'success');
+                this.resetForm();
+                setTimeout(() => {
+                  this.router.navigateByUrl('/auth/login');
+                }, 1500);
+              }
+            });
+
+          } else {
+            this._uiActionsService.presentToast('El registro falló, inténtelo de nuevo.', true, 2000, null, 'secondary');
+          }
+
+        }
+        ).catch(() => {
+          this._uiActionsService.presentToast('El registro falló, inténtelo de nuevo.', true, 2000, null, 'secondary');
+        });
+
+      });
+
+    }
 
   }
 
