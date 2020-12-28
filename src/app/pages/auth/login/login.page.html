@@ -29,23 +29,20 @@
                     <ion-text color="danger" class="ion-text-center" *ngIf="password.errors.required">
                         <p>El campo es requerido</p>
                     </ion-text>
-                    <ion-text color="danger" class="ion-text-center" *ngIf="password.errors.minlength">
-                        <p>Se requiere un mínimo de {{password.errors.minlength.requiredLength}} caractéres</p>
-                    </ion-text>
                 </div>
                 <ion-grid>
                     <ion-row>
                         <ion-col size="12" class="ion-text-end">
-                            <ion-text class="forgot-password-text cursor-pointer" color="primary" routerLink="/auth/forgot-password">Olvidaste tu contraseña?</ion-text>
+                            <ion-text class="forgot-password-text cursor-pointer" color="primary" routerLink="/forgot-password">Olvidaste tu contraseña?</ion-text>
                         </ion-col>
                     </ion-row>
                 </ion-grid>
-                <ion-button expand="block" shape="round" (click)="onLogin()" [disabled]="!loginForm.valid">INICIAR SESIÓN</ion-button>
+                <ion-button expand="block" shape="round" (click)="onLogin()">INICIAR SESIÓN</ion-button>
                 <ion-grid>
                     <ion-row>
                         <ion-col size="12" class="ion-text-center">
                             <ion-text class="no-account-text" color="tertiary">Aun no tienes cuenta?
-                                <ion-text class="cursor-pointer" color="primary" routerLink="/auth/signup">Crea una</ion-text>
+                                <ion-text class="cursor-pointer" color="primary" routerLink="/signup">Crea una</ion-text>
                             </ion-text>
                         </ion-col>
                     </ion-row>

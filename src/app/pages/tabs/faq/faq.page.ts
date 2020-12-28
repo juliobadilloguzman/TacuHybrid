@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { AuthService } from 'src/app/services/auth.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-faq',
@@ -7,9 +9,16 @@ import { Component, OnInit } from '@angular/core';
 })
 export class FaqPage implements OnInit {
 
-  constructor() { }
+  constructor(private _authService: AuthService, private router: Router) { }
 
   ngOnInit() {
+    
+  }
+
+  logOut(){
+    this._authService.logOut().then(() => {
+      this.router.navigateByUrl('/login');
+    });
   }
 
 }

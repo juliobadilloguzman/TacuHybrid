@@ -128,7 +128,7 @@ export class SignupPage implements OnInit {
     this.termsAccepted = event;
   }
 
-  async openTermsAndConditions(){
+  async openTermsAndConditions() {
     const modal = await this.modalController.create({
       component: TermsConditionsComponent,
       id: 'terms-conditions'
@@ -141,64 +141,87 @@ export class SignupPage implements OnInit {
     return dirty && touched && !!errors;
   }
 
-  resetForm(){
+  resetForm() {
     this.signUpForm.reset();
     this.termsAccepted = false;
   }
 
-  onSignUp(): void {
+
+  async onSignUp() {
 
     if (!this.signUpForm.valid) return;
 
     if (!this.termsAccepted)
       this._uiActionsService.presentAlert('Para continuar, debes de aceptar los terminos y condiciones.', ['Entendido'], 'Terminos y Condiciones');
     else {
-
-      this._uiActionsService.presentLoading('Registrando usuario...').then(loading => {
+      await this._uiActionsService.presentLoading('Registrando usuario...').then(loading => {
 
         loading.present();
 
-        //Agrega el usuario a la Authentication de Firebase
-        this._authService.signUp(this.correo.value, this.contra.value).then((response) => {
+        this._authService.signUp(this.correo.value, this.contra.value).subscribe(
 
-          //Si lo agregó correcamente, lo agrega a la base de datos
-          if (response.user) {
+          (response: any) => {
 
-            const persona: Persona = {
-              id: response.user.uid,
-              nombre: this.nombre.value,
-              apellidos: this.apellidos.value,
-              sexo: this.sexo.value,
-              correo: this.correo.value,
-              nacimiento: moment(this.nacimiento.value).locale('es').format('L'),
-              telefono: this.telefono.value,
-              creacion: this.creacion.value,
-              taqueriasVisitadas: 0,
-              primeraVezLoggeado: true
-            };
+            //Si lo agregó correcamente, lo agrega a la base de datos
+            if (response) {
 
-            this._personaService.createPersona(persona).then((response) => {
-              if (response) {
+              const persona: Persona = {
+                id: response.localId,
+                nombre: this.nombre.value,
+                apellidos: this.apellidos.value,
+                sexo: this.sexo.value,
+                correo: this.correo.value,
+                nacimiento: moment(this.nacimiento.value).locale('es').format('L'),
+                telefono: this.telefono.value,
+                creacion: this.creacion.value,
+                taqueriasVisitadas: 0,
+                primeraVezLoggeado: true
+              };
+
+              this._personaService.createPersona(persona).then((response) => {
+                if (response) {
+                  loading.dismiss();
+                  this._uiActionsService.presentToast('Usuario registrado satisfactoriamente', true, 2000, null, 'success');
+                  this.resetForm();
+                  setTimeout(() => {
+                    this.router.navigateByUrl('/login');
+                  }, 1500);
+                }
+              });
+
+            } else {
+              this._uiActionsService.presentToast('El registro falló, inténtelo de nuevo.', true, 2000, null, 'secondary');
+              loading.dismiss();
+            }
+
+          },
+          (error) => {
+
+            switch (error.error.error.message) {
+
+              case 'EMAIL_EXISTS':
+                this._uiActionsService.presentToast('El correo a registrar ya esta en uso.', true, 2000, null, 'secondary');
                 loading.dismiss();
-                this._uiActionsService.presentToast('Usuario registrado satisfactoriamente', true, 2000, null, 'success');
-                this.resetForm();
-                setTimeout(() => {
-                  this.router.navigateByUrl('/auth/login');
-                }, 1500);
-              }
-            });
+                break;
 
-          } else {
-            this._uiActionsService.presentToast('El registro falló, inténtelo de nuevo.', true, 2000, null, 'secondary');
+              case 'INVALID_EMAIL':
+                this._uiActionsService.presentToast('Introduzca un formato de correo correcto.', true, 2000, null, 'secondary');
+                loading.dismiss();
+                break;
+
+              case 'TOO_MANY_ATTEMPTS_TRY_LATER':
+                this._uiActionsService.presentToast('Hemos bloqueado el registro desde este dispositivo debido a actividad insual.', true, 2000, null, 'secondary');
+                loading.dismiss();
+                break;
+
+              default:
+                this._uiActionsService.presentToast('El registro falló, inténtelo de nuevo.', true, 2000, null, 'secondary');
+                loading.dismiss();
+                break;
+            }
           }
-
-        }
-        ).catch(() => {
-          this._uiActionsService.presentToast('El registro falló, inténtelo de nuevo.', true, 2000, null, 'secondary');
-        });
-
+        );
       });
-
     }
 
   }

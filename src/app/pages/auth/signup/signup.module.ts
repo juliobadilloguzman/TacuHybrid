@@ -8,6 +8,7 @@ import { SignupPageRoutingModule } from './signup-routing.module';
 
 import { SignupPage } from './signup.page';
 import { TermsConditionsComponent } from './terms-conditions/terms-conditions.component';
+import { HttpClientModule } from '@angular/common/http';
 
 @NgModule({
   imports: [
@@ -16,7 +17,8 @@ import { TermsConditionsComponent } from './terms-conditions/terms-conditions.co
     IonicModule,
     SignupPageRoutingModule,
     FormsModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    HttpClientModule
   ],
   declarations: [SignupPage, TermsConditionsComponent],
   entryComponents: [TermsConditionsComponent]
