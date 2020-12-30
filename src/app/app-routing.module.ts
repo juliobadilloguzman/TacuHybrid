@@ -7,30 +7,6 @@ const routes: Routes = [
     path: '',
     loadChildren: () => import('./pages/auth/login/login.module').then(m => m.LoginPageModule)
   },
-  // {
-  //   path: 'auth',
-  //   children:[
-  //     {
-  //       path: '',
-  //       pathMatch: 'full',
-  //       redirectTo: '/auth/login'
-  //     },
-  //     {
-  //       path: 'login',
-  //       canLoad:[AuthGuard],
-  //       loadChildren: () => import('./pages/auth/login/login.module').then( m => m.LoginPageModule)
-  //     },
-  //     {
-  //       path: 'signup',
-  //       canLoad:[AuthGuard],
-  //       loadChildren: () => import('./pages/auth/signup/signup.module').then( m => m.SignupPageModule)
-  //     },
-  //     {
-  //       path: 'forgot-password',
-  //       loadChildren: () => import('./pages/auth/forgot-password/forgot-password.module').then( m => m.ForgotPasswordPageModule)
-  //     }
-  //   ]
-  // },
   {
     path: 'login',
     loadChildren: () => import('./pages/auth/login/login.module').then(m => m.LoginPageModule)
@@ -38,6 +14,10 @@ const routes: Routes = [
   {
     path: 'signup',
     loadChildren: () => import('./pages/auth/signup/signup.module').then(m => m.SignupPageModule)
+  },
+  {
+    path: 'forgot-password',
+    loadChildren: () => import('./pages/auth/forgot-password/forgot-password.module').then(m => m.ForgotPasswordPageModule)
   },
   {
     path: 'tabs',

@@ -13,6 +13,10 @@ const routes: Routes = [
         loadChildren: () => import('../tabs/faq/faq.module').then(m => m.FaqPageModule)
       },
       {
+        path: 'taquerias',
+        loadChildren: () => import('./taquerias/taquerias.module').then( m => m.TaqueriasPageModule)
+      },
+      {
         path: '',
         redirectTo: '/tabs/faq',
         pathMatch: 'full'

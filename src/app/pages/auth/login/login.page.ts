@@ -53,8 +53,6 @@ export class LoginPage implements OnInit {
 
   async onLogin() {
 
-    console.warn(this.loginForm.value);
-
     await this._uiActionsService.presentLoading('Iniciando sesión...').then(loading => {
 
       loading.present();
@@ -64,7 +62,6 @@ export class LoginPage implements OnInit {
         (response: any) => {
 
           if (response) {
-            console.warn(response);
             this.router.navigateByUrl('/tabs/faq');
             loading.dismiss();
             this.loginForm.reset();
@@ -110,49 +107,6 @@ export class LoginPage implements OnInit {
 
     });
 
-    /*this._uiActionsService.presentLoading('Iniciando sesión...').then(loading => {
-
-      loading.present();
-
-      this._authService.logIn(this.email.value, this.password.value).then((response) => {
-
-        if(response.user){
-          loading.dismiss();
-          setTimeout(() => {
-            this.router.navigateByUrl('/tabs/faq');
-          }, 1500);
-        }else{
-          this._uiActionsService.presentToast('No se pudo iniciar sesión, inténtelo de nuevo.', true, 2000, null, 'secondary');
-          loading.dismiss();
-        }
-      }).catch((error) => {
-
-        switch (error.code) {
-          case 'auth/user-not-found':
-            this._uiActionsService.presentToast('El correo no esta asociado a ninguna cuenta.', true, 2000, null, 'secondary');
-            loading.dismiss();
-            break;
-
-          case 'auth/wrong-password':
-            this._uiActionsService.presentToast('Usuario o contraseña incorrectos.', true, 2000, null, 'secondary');
-            loading.dismiss();
-            break;
-
-          case 'auth/invalid-email':
-            this._uiActionsService.presentToast('Formato de correo incorrecto.', true, 2000, null, 'secondary');
-            loading.dismiss();
-            break;
-        
-          default:
-            this._uiActionsService.presentToast('No se pudo iniciar sesión, inténtelo de nuevo.', true, 2000, null, 'secondary');
-            loading.dismiss();
-            this.resetForm();
-            break;
-        }
-
-      });
-
-    });*/
   }
 
 }

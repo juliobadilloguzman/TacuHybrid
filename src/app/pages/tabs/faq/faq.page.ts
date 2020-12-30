@@ -16,9 +16,7 @@ export class FaqPage implements OnInit {
   }
 
   logOut(){
-    this._authService.logOut().then(() => {
-      this.router.navigateByUrl('/login');
-    });
+    this._authService.logOut();
   }
 
 }

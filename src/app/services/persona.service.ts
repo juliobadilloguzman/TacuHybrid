@@ -9,7 +9,7 @@ export class PersonaService {
 
   constructor(private firestore: AngularFirestore) { }
 
-  async createPersona(persona: Persona){
+  async createPersona(persona: Persona): Promise<any>{
     return await this.firestore.collection('PERSONA').add(persona);
   }
 

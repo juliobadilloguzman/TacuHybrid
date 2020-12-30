@@ -87,7 +87,6 @@ export class AuthService implements OnDestroy {
     return this.http.post<AuthResponse>(`https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=${environment.firebaseConfig.apiKey}`,
       { email: email, password: password, returnSecureToken: true }
     );
-    //.pipe(tap(this.setUserData.bind(this)));
   }
 
   private autoLogout(duration: number) {
@@ -105,11 +104,11 @@ export class AuthService implements OnDestroy {
     }
     this._user.next(null);
     Plugins.Storage.remove({key: 'authData'});
-    this._angularFireAuth.signOut().then(res => console.log(res));
+    this._angularFireAuth.signOut();
   }
 
-  async resetPassword(): Promise<any> {
-
+  async changePassword(email: string): Promise<any> {
+    return this._angularFireAuth.sendPasswordResetEmail(email);
   }
 
   async emailAvailable(email: string): Promise<any> {
