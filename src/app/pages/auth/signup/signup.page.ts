@@ -179,14 +179,14 @@ export class SignupPage implements OnInit {
               };
 
               this._personaService.createPersona(persona).then((response) => {
-                if (response) {
+                
                   loading.dismiss();
                   this._uiActionsService.presentToast('Usuario registrado satisfactoriamente', true, 2000, null, 'success');
                   this.resetForm();
                   setTimeout(() => {
                     this.router.navigateByUrl('/login');
                   }, 1500);
-                }
+            
               });
 
             } else {

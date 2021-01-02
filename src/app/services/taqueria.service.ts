@@ -9,14 +9,14 @@ import { Taqueria } from '../models/taqueria';
 })
 export class TaqueriaService {
 
-  private taqueriasCollection: AngularFirestoreCollection<Taqueria>;
+  private _taqueriasCollection: AngularFirestoreCollection<Taqueria>;
 
   constructor(private _angularFirestore: AngularFirestore) {
-    this.taqueriasCollection = _angularFirestore.collection<Taqueria>('TAQUERIA');
+    this._taqueriasCollection = _angularFirestore.collection<Taqueria>('TAQUERIA');
   }
 
   getTaquerias(): Observable<Taqueria[]> {
-    return this.taqueriasCollection
+    return this._taqueriasCollection
       .snapshotChanges()
       .pipe(
         map(response =>

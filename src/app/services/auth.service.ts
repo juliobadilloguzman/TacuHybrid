@@ -32,12 +32,12 @@ export class AuthService implements OnDestroy {
 
   get userUid() {
     return this._user.asObservable().pipe(map(user => {
-      if (user) {
-        return user.uid;
-      } else {
-        return null;
-      }
-    })
+        if (user) {
+          return user.uid;
+        } else {
+          return null;
+        }
+      })
     );
   }
 

@@ -7,6 +7,10 @@ const routes: Routes = [
   {
     path: '',
     component: TaqueriasPage
+  },
+  {
+    path: 'taqueria-detail',
+    loadChildren: () => import('./taqueria-detail/taqueria-detail.module').then( m => m.TaqueriaDetailPageModule)
   }
 ];
 

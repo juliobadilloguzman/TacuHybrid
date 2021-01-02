@@ -62,7 +62,7 @@ export class LoginPage implements OnInit {
         (response: any) => {
 
           if (response) {
-            this.router.navigateByUrl('/tabs/faq');
+            this.router.navigateByUrl('/welcome');
             loading.dismiss();
             this.loginForm.reset();
           } else {

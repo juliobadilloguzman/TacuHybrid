@@ -3,6 +3,7 @@ import { PreloadAllModules, RouterModule, Routes } from '@angular/router';
 import { AuthGuard } from './guards/auth.guard';
 
 const routes: Routes = [
+
   {
     path: '',
     loadChildren: () => import('./pages/auth/login/login.module').then(m => m.LoginPageModule)
@@ -24,7 +25,14 @@ const routes: Routes = [
     loadChildren: () => import('./pages/tabs/tabs.module').then(m => m.TabsPageModule),
     canLoad: [AuthGuard]
   },
-  { path: '**', redirectTo: '/auth' }
+  {
+    path: 'welcome',
+    loadChildren: () => import('./pages/welcome/welcome.module').then( m => m.WelcomePageModule)
+  },
+  {
+    path: '**', 
+    redirectTo: '/auth' 
+  }
 
 ];
 @NgModule({
