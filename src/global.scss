@@ -19,7 +19,7 @@
 @import "~@ionic/angular/css/normalize.css";
 @import "~@ionic/angular/css/structure.css";
 @import "~@ionic/angular/css/typography.css";
-@import '~@ionic/angular/css/display.css';
+@import "~@ionic/angular/css/display.css";
 
 /* Optional CSS utils that can be commented out */
 
@@ -37,6 +37,10 @@
 
 .no-padding {
     padding: 0 !important;
+}
+
+.full-width {
+    width: 100% !important;
 }
 
 .text-justify {
@@ -125,5 +129,5 @@ ion-tab-button {
 
 .tab-selected {
     background: #f5f5f5 !important;
-    color: #fc4545!important;
+    color: #fc4545 !important;
 }

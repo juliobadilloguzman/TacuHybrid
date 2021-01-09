@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { TaqueriaService } from 'src/app/services/taqueria.service';
+import { Taqueria } from 'src/app/models/taqueria';
 
 @Component({
   selector: 'app-taquerias',
@@ -8,10 +9,17 @@ import { TaqueriaService } from 'src/app/services/taqueria.service';
 })
 export class TaqueriasPage implements OnInit {
 
+  taquerias: Taqueria[];
+
   constructor(private _taqueriaService: TaqueriaService) { }
 
-  ngOnInit() {
-
+  async ngOnInit() {
+    await this._taqueriaService.getTaquerias().subscribe((response) => {
+      this.taquerias = response;
+      console.warn(this.taquerias);
+    });
   }
+
+
 
 }
