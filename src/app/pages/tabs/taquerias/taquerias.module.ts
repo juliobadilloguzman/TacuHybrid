@@ -5,7 +5,7 @@ import { FormsModule } from '@angular/forms';
 import { IonicModule } from '@ionic/angular';
 
 import { TaqueriasPageRoutingModule } from './taquerias-routing.module';
-
+import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
 import { TaqueriasPage } from './taquerias.page';
 
 @NgModule({
@@ -13,8 +13,9 @@ import { TaqueriasPage } from './taquerias.page';
     CommonModule,
     FormsModule,
     IonicModule,
-    TaqueriasPageRoutingModule
+    TaqueriasPageRoutingModule,
+    NgbModule
   ],
   declarations: [TaqueriasPage]
 })
-export class TaqueriasPageModule {}
+export class TaqueriasPageModule { }

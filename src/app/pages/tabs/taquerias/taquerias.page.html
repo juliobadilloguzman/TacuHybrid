@@ -14,15 +14,20 @@
         <ion-grid>
             <ion-row>
                 <ion-col size="12" *ngFor="let taqueria of taquerias">
-                    <ion-card color="secondary">
-                        <img class="full-width" style="height: 35vh !important;" [src]="taqueria.imagen" />
+                    <ion-card color="secondary" [routerLink]="taqueria.id">
+                        <img class="full-width" style="height: 30vh !important;" [src]="taqueria.imagen" />
                         <ion-card-header>
-                            <ion-card-title>{{taqueria.nombre}}</ion-card-title>
+                            <ion-card-title>
+                                <ion-text color="dark">{{taqueria.nombre}}</ion-text>
+                            </ion-card-title>
                             <ion-card-subtitle style="font-weight: 300 !important; margin-top: 0.3rem !important;">
-                                {{taqueria.descripcion | slice:0:80}}...</ion-card-subtitle>
+                                <ion-text color="dark">{{taqueria.descripcion | slice:0:80}}...</ion-text>
+                            </ion-card-subtitle>
                         </ion-card-header>
                         <ion-card-content>
                             <!-- Founded in 1829 on an isthmus between Lake Monona and Lake Mendota, Madison was named the capital of the Wisconsin Territory in 1836. -->
+                            <ngb-rating [max]="5" rate="4.5" [readonly]="true"></ngb-rating>
+                            <ion-text color="dark">4.5</ion-text><br>
                             <ion-text color="primary">196 votos</ion-text>
                         </ion-card-content>
                     </ion-card>

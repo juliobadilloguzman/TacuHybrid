@@ -1,9 +1,46 @@
 <ion-header>
-    <ion-toolbar>
-        <ion-title>taqueria-detail</ion-title>
+    <ion-toolbar color="primary">
+        <ion-buttons slot="start">
+            <ion-back-button text="Atrás" defaultHref="/tabs/taquerias"></ion-back-button>
+        </ion-buttons>
+        <ion-title><span *ngIf="taqueria">{{taqueria.nombre}}</span></ion-title>
     </ion-toolbar>
 </ion-header>
 
-<ion-content color="secondary">
-
+<ion-content color="secondary" fullscreen="false">
+    <section *ngIf="taqueria" style="height: 80vh; overflow-y: scroll;">
+        <ion-img [src]="taqueria.imagen"></ion-img>
+        <div class="ion-padding">
+            <ion-text color="dark">
+                <h1>{{taqueria.nombre}}</h1>
+            </ion-text>
+            <ion-text color="medium">
+                <p class="text-justify">{{taqueria.descripcion}}</p>
+            </ion-text>
+            <ion-list>
+                <ion-item color="secondary" class="ion-text-center">
+                    <ion-label>
+                        <ion-icon class="icon icon-star" name="star"></ion-icon>
+                        <ion-text style="margin-left: 0.2rem;" class="text-semibold" color="dark">
+                            {{taqueria.calificacion}}</ion-text>
+                    </ion-label>
+                </ion-item>
+                <ion-item color="secondary" class="ion-text-center">
+                    <ion-label>
+                        <ion-icon class="icon icon-clock" name="time-outline"></ion-icon>
+                        <ion-text style="margin-left: 0.2rem;" class="text-semibold" color="dark">{{taqueria.horario}}
+                        </ion-text>
+                    </ion-label>
+                </ion-item>
+                <ion-item color="secondary" class="ion-text-center">
+                    <ion-label>
+                        <ion-icon name="call"></ion-icon>
+                        <ion-text style="margin-left: 0.2rem;" class="text-semibold" color="dark">{{taqueria.telefono}}
+                        </ion-text>
+                    </ion-label>
+                </ion-item>
+            </ion-list>
+            <ion-button class="mt-1" color="primary" expand="block" shape="round">Como llegar</ion-button>
+        </div>
+    </section>
 </ion-content>
